@@ -20,7 +20,7 @@ from calibre.gui2.store.search_result import SearchResult
 from calibre.gui2.store.web_store_dialog import WebStoreDialog
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko'
-ROOT = 'https://b-ok.cc'
+ROOT = 'https://b-ok.xyz'
 
 class ZLibraryStore(BasicStoreConfig, StorePlugin):
 
