@@ -8,7 +8,7 @@ class ZLibraryStore(StoreBase):
     name = 'The Zlibrary Library'
     description = "Z-Library. The world's largest ebook library."
     author = 'Fabien Zouaoui'
-    version = (0, 0, 1)
+    version = (0, 0, 3)
     drm_free_only = True
     #formats = ['EPUB', 'PDF', 'DJVU', 'FB2', 'TXT', 'RAR', 'MOBI', 'LIT', 'DOC', 'RTF']
     formats = ['EPUB']
