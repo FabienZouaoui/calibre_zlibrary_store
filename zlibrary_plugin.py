@@ -20,7 +20,8 @@ from calibre.gui2.store.search_result import SearchResult
 from calibre.gui2.store.web_store_dialog import WebStoreDialog
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko'
-ROOT = 'https://de1lib.org/'
+#ROOT = 'https://fr.2lib.org'
+ROOT = 'https://fr.de1lib.org/'
 
 class ZLibraryStore(BasicStoreConfig, StorePlugin):
 
@@ -37,6 +38,7 @@ class ZLibraryStore(BasicStoreConfig, StorePlugin):
 
     def search(self, query, max_results=10, timeout=60):
         url  = ROOT + '/s/' + quote(query)
+        print(f"url = {url}")
 
         br = browser(user_agent=USER_AGENT)
 
@@ -58,6 +60,17 @@ class ZLibraryStore(BasicStoreConfig, StorePlugin):
                 title       = ''.join(sub.xpath('//h3/a/text()'))
                 author      = ', '.join(sub.xpath('//div[@class="authors"]/a/text()'))
                 detail_item = ROOT + ''.join(sub.xpath('//h3[@itemprop="name"]/a/@href'))
+                download    = None
+
+                print(f"detail_item = {detail_item}")
+                with closing(br.open(detail_item, timeout=timeout)) as f2:
+                    doc2 = html.fromstring(f2.read())
+                    downloads = doc2.xpath('//div[@class="btn-group"]/a[@class="btn btn-primary dlButton addDownloadedBook"]/@href')
+                    try:
+                        download = ROOT + downloads[0]
+                        print(f"download = {download}")
+                    except:
+                        download = None
 
                 counter -= 1
 
@@ -69,6 +82,7 @@ class ZLibraryStore(BasicStoreConfig, StorePlugin):
                 s.detail_item = detail_item.strip()
                 s.drm         = SearchResult.DRM_UNLOCKED
                 s.formats = 'EPUB'
-                #s.downloads['EPUB'] = data['url'].strip() + '.epub'
+                #if download:
+                #    s.downloads['EPUB'] = download
 
                 yield s
