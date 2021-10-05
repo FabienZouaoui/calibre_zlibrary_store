@@ -58,6 +58,8 @@ def search_zlib(query, max_results=10, timeout=60):
                 cover_url = ROOT + ''.join(sub.xpath('//img[@class="cover"]/@src'))
 
             title       = ''.join(sub.xpath('//h3/a/text()'))
+            if not title:
+                continue
             author      = ', '.join(sub.xpath('//div[@class="authors"]/a/text()'))
             detail_item = ROOT + ''.join(sub.xpath('//h3[@itemprop="name"]/a/@href'))
             download    = None
